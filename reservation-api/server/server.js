@@ -25,7 +25,7 @@ function init() {
 
 // Generates random id for each message
 function randomid() {
-    return getUniqueId();
+    return utils.getUniqueID();
     //return new Date().getTime().toString() + Math.random().toString() + Math.random().toString();
 }
 
