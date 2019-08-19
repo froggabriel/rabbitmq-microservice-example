@@ -17,8 +17,7 @@ amqp.connect('amqp://localhost')
                 correlationId: msg.properties.correlationId
             });
 
-            //Acknowledge the job done with the message.
-            ch.ack(msg);
+            //Acknowledge the job done with the message.            
         });
     });
 });

@@ -1,6 +1,7 @@
 const express = require('express');
 const amqp = require('amqplib');
 const EventEmitter = require('events');
+const utils = require("../../app-common/library/utils")
 
 const RESERVATION_QUEUE = 'reservation';
 const eventEmmiter = new EventEmitter();
@@ -24,7 +25,8 @@ function init() {
 
 // Generates random id for each message
 function randomid() {
-    return new Date().getTime().toString() + Math.random().toString() + Math.random().toString();
+    return getUniqueId();
+    //return new Date().getTime().toString() + Math.random().toString() + Math.random().toString();
 }
 
 const app = express();
@@ -34,6 +36,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/process/:text', (req, res) => {
+    console.log("processing " + req.params.text);
     // assign random id to our message
     let id = randomid();
     // handle the reply from the worker
