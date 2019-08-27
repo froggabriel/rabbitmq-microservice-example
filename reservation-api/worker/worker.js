@@ -1,16 +1,17 @@
 const amqp = require('amqplib');
 
 let channel = null;
-const RESERVATION_QUEUE = 'reservation';
+const QUEUE = 'process';
 
 amqp.connect('amqp://localhost')
 .then(conn => conn.createChannel())
 .then(ch => {
-    ch.assertQueue(RESERVATION_QUEUE)
-    .then(() => {
+    ch.assertQueue(QUEUE)
+    .then(q => {
         //Watch incomming messages
-        ch.consume(RESERVATION_QUEUE, msg => {
+        ch.consume(q.queue, msg => {
             const out = msg.content + ' processed';
+            console.log(out);
             //Send back to the sender (replyTo) queue and give the correlationId back
             //so we can emit the event.
             ch.sendToQueue(msg.properties.replyTo, Buffer.from(out), {
